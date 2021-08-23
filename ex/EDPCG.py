@@ -26,7 +26,6 @@ class tpsort():
         for u, v in self.edges:
             outs[u].append(v)
             ins[v] += 1
-        
 
         q = deque(u for u in self.nodes if ins[u] == 0)
         self.readies = list(q.copy())
