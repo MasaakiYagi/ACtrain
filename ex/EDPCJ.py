@@ -1,6 +1,10 @@
 # EDPC-J
 # https://atcoder.jp/contests/dp/tasks/dp_j
 
+import sys
+import resource
+sys.setrecursionlimit(1000000)
+
 n = int(input())
 a = list(map(int, input().split()))
 
@@ -24,14 +28,14 @@ def f(c1,c2,c3):
         p1 = c1/n
         p2 = c2/n
         p3 = c3/n
-        p0 = 1-(p1+p2+p3)
+        p0 = (n-c1-c2-c3)/n
         frans = 1/(1-p0)
         if c1>0:
-            frans += dp[c1-1][c2][c3]*p1/(1-p0)
+            frans += f(c1-1,c2,c3)*p1/(1-p0)
         if c2>0:
-            frans += dp[c1+1][c2-1][c3]*p2/(1-p0)
-        if c2>0:
-            frans += dp[c1][c2+1][c3-1]*p3/(1-p0)
+            frans += f(c1+1,c2-1,c3)*p2/(1-p0)
+        if c3>0:
+            frans += f(c1,c2+1,c3-1)*p3/(1-p0)
         dp[c1][c2][c3] = frans
         return dp[c1][c2][c3]
         
