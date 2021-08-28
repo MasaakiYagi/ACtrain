@@ -11,7 +11,7 @@ for i in range(k+1):
         dp[i] = False
     else:
         # i-a[j]が0以上のaを抽出
-        # min(dp[i-a])+1がdp[i]の値となる
+        # 打てる手で，Falseに遷移できるのであればTrue
         dp_dash = [dp[i-j] for j in a if i-j>=0]
         dp[i] = not(all(dp_dash))
 
