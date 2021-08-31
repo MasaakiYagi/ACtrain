@@ -1,16 +1,22 @@
-# ABC210-C
-# https://atcoder.jp/contests/abc210/tasks/abc210_c
+# 典型90問004
+# https://atcoder.jp/contests/typical90/tasks/typical90_d
 
-n, k = list(map(int, input().split()))
-c = list(map(int, input().split()))
+import numpy as np
 
-# 愚直解で
-ans = 0
-for i in range(n-k+1):
-    # i~i+k-1までの配列抜き出し
-    c_p = c[i:i+k]
-    # c_pにふくまれるキャンディの種類
-    num_c = len(set(c_p))
-    ans = max(ans,num_c)
+h, w = list(map(int, input().split()))
+a = [list(map(int, input().split())) for _ in range(h)]
+a = np.array(a)
 
-print(ans)
+retu = np.sum(a, axis=0, dtype=int)
+gyou = np.sum(a, axis=1, dtype=int)
+
+b = np.zeros((h,w), dtype=np.int64)
+for i in range(len(gyou)):
+    b[i,:] += int(gyou[i])
+for j in range(len(retu)):
+    b[:,j] += int(retu[j])
+
+b = b-a
+b = b.tolist()
+for i in b:
+    print(*i)
