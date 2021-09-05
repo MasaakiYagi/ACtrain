@@ -147,11 +147,23 @@ def factorization(n):
 
     return arr
 
-#a,bの最大公約数
+# a,bの最大公約数
 def gcd(a, b):
     while b:
         a, b = b, a % b
     return a
+
+# n進数からm進数に変換（nlは配列表記してあげる必要あり）
+def base_convert(nl, ibase, obase):
+    o = []
+    while any(nl):
+        c = 0
+        for i in range(len(nl)):
+            c = c * ibase + nl[i]
+            nl[i],c = divmod(c,obase)
+        o.append(c)
+    o.reverse()
+    return o
 
 ## プロシージャ
 
