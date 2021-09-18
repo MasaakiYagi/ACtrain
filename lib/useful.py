@@ -237,6 +237,46 @@ def meguru_bisect(ng, ok):
             ng = mid
     return ok
 
+# 繰り返し二乗法
+def kuripow(x, n):
+    ans = 1
+    while n:
+        if n % 2:
+            ans *= x
+        x *= x
+        n >>= 1
+    return ans
+
+def modpow(a: int, p: int, mod: int) -> int:
+    # return a**p (mod MOD) O(log p)
+    if p == 0:
+        return 1
+    if p % 2 == 0:
+        half = modpow(a, p//2, mod)
+        return half*half % mod
+    else:
+        return a * modpow(a, p-1, mod) % mod
+
+# 素因数分解
+def factorization(n):
+    arr = []
+    temp = n
+    for i in range(2, int(-(-n**0.5//1))+1):
+        if temp%i==0:
+            cnt=0
+            while temp%i==0:
+                cnt+=1
+                temp //= i
+            arr.append([i, cnt])
+
+    if temp!=1:
+        arr.append([temp, 1])
+
+    if arr==[]:
+        arr.append([n, 1])
+
+    return arr
+
 ## プロシージャ
 
 # 座標圧縮
