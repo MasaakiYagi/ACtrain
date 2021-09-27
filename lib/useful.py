@@ -3,6 +3,38 @@ import heapq  # 優先度付きキュー（最小値探索につかえる）
 
 ## class
 
+# BFS,DFS(典型03)
+class Graph:
+    def __init__(self, size):
+        # id starts from 0
+        self.size = size
+        #self.vertices = [0] * size
+        self.edges = [None] * size
+        for i in range(size):
+            self.edges[i] = []
+    def __repr__(self):
+        out = []
+        #out.append("vertices {}".format(self.vertices))
+        for i, e in enumerate(self.edges):
+            out.append("{}{}".format(i, pf(e)))
+        return "\n".join(out)
+    def add_edge(self, frm, to):
+        self.edges[frm].append(to)
+        self.edges[to].append(frm)
+
+def dfs(graph, v, parent=-1, depth=0):
+    max_depth = depth
+    max_leaf = v
+    depth += 1
+    for to in graph.edges[v]:
+        if to == parent:
+            continue
+        d, leaf = dfs(graph, to, v, depth)
+        if d > max_depth:
+            max_depth = d
+            max_leaf = leaf
+    return max_depth, max_leaf
+
 # Union Find
 class UnionFind():
     def __init__(self, n):
