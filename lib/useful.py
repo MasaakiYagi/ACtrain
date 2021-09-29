@@ -1,3 +1,7 @@
+# 再帰の回数上限撤廃
+import sys
+sys.setrecursionlimit(10**7)
+
 ## lib
 import heapq  # 優先度付きキュー（最小値探索につかえる）
 
