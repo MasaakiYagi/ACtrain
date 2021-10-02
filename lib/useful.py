@@ -4,6 +4,11 @@ sys.setrecursionlimit(10**8)
 
 ## lib
 import heapq  # 優先度付きキュー（最小値探索につかえる）
+# heapq.heappush(heap, item) heapリストにitemをpush
+# heapq.heappop(heap) heapから最小要素をpop heap[0]で要素参照もできるよ
+# heapq.heapify(x) リストxをヒープリストにする
+from collections import deque
+# https://qiita.com/ryosuke0825/items/bbc5c0673e6c6c958d66
 
 ## class
 
