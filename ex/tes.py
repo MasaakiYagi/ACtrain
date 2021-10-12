@@ -9,39 +9,20 @@
 # import sys
 # sys.setrecursionlimit(10**8)
 
-from collections import deque
+import bisect
 
-n=int(input())
-tab = {0:"(",
-        1:")"}
+inf = 10**10
 
-if n%2==0:  # 奇数は無視
-    for i in range(2**n):
-        bi = list(bin(i)[2:])
-        bi = list(map(int, bi))
-        bi = deque(bi)
-        sa = n-len(bi)
-        if sa>0:  # 桁数が足りなかったら補完
-            salist = [0]*sa
-            for j in salist:
-                bi.appendleft(j)
-        
-        # 正しいカッコか判定
-        cnt = 0
-        flag = 1
-        for j in bi:
-            if j==0:
-                cnt += 1
-            else:
-                cnt -= 1
-            
-            if cnt<0:
-                flag = 0
-                break
-            
-        if not(cnt==0):
-            flag = 0
-        
-        if flag:
-            ans = list(map(lambda v:tab[v], bi))
-            print("".join(ans))
+n = int(input())
+a = list(map(int, input().split()))
+q = int(input())
+b = [int(input()) for _ in range(q)]
+
+a = sorted(a)
+
+# にぶたんで一番近いクラスを探索
+for i in range(q):
+    ind = bisect.bisect_left(a, b[i])
+    cand1 = inf if ind==n else abs(a[ind]-b[i])
+    cand2 = inf if ind==0 else abs(a[ind-1]-b[i])
+    print(min(cand1,cand2))
