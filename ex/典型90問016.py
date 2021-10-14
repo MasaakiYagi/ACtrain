@@ -2,17 +2,20 @@
 # https://atcoder.jp/contests/typical90/tasks/typical90_p
 
 n = int(input())
-a = list(map(int, input().split()))
+a, b, c = list(map(int, input().split()))
 
-a = sorted(a, reverse=True)
+# 全探索（効率よく）
+ans = 10000
+for i in range(10000):
+    for j in range(10000-i):
+        tot = i*a+j*b
+        sub = n-tot
+        if sub>0 and sub%c==0:
+            # cを整数倍出すことで，丁度tot合計がnとなったとき
+            k = sub//c
+            ans = min(ans, i+j+k)
+        elif sub==0:
+            # cが0枚で丁度tot合計がnのとき
+            ans = min(ans, i+j)
 
-# 全探索（ただし，3重ループではなく2重）
-ans = 9999
-for i in range(int(n/a[0])+2):
-    for j in range(int((n-i*a[0])/a[1])+2):
-        if n >= (i*a[0]+j*a[1]):
-            q = (n-(i*a[0]+j*a[1]))//a[2]
-            mod = (n-(i*a[0]+j*a[1]))%a[2]
-            if mod == 0 and ans>(q+i+j):
-                ans = q+i+j
 print(ans)

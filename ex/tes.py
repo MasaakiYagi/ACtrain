@@ -10,14 +10,17 @@
 # sys.setrecursionlimit(10**8)
 
 n = int(input())
-a = list(map(int, input().split()))
-b = list(map(int, input().split()))
+a, b, c = list(map(int, input().split()))
 
-a = sorted(a)
-b = sorted(b)
+# 全探索（効率よく）
+ans = 10000
+for i in range(10001):
+    for j in range(10001-i):
+        tot = i*a+j*b
+        sub = n-tot
+        if sub>0 and sub%c==0:
+            # cを整数倍出すことで，丁度tot合計がnとなったとき
+            k = sub//c
+            ans = min(ans, i+j+k)
 
-ans = 0
-for i in range(n):
-    ans += abs(a[i]-b[i])
-    
 print(ans)
