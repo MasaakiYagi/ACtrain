@@ -9,20 +9,15 @@
 # import sys
 # sys.setrecursionlimit(10**8)
 
-import bisect
-
-inf = 10**10
-
 n = int(input())
 a = list(map(int, input().split()))
-q = int(input())
-b = [int(input()) for _ in range(q)]
+b = list(map(int, input().split()))
 
 a = sorted(a)
+b = sorted(b)
 
-# にぶたんで一番近いクラスを探索
-for i in range(q):
-    ind = bisect.bisect_left(a, b[i])
-    cand1 = inf if ind==n else abs(a[ind]-b[i])
-    cand2 = inf if ind==0 else abs(a[ind-1]-b[i])
-    print(min(cand1,cand2))
+ans = 0
+for i in range(n):
+    ans += abs(a[i]-b[i])
+    
+print(ans)
