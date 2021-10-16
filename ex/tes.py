@@ -10,24 +10,25 @@
 # sys.setrecursionlimit(10**8)
 # import itertools
 
-n, q = list(map(int, input().split()))
+n = int(input())
 a = list(map(int, input().split()))
-t = [0]*q
-x = [0]*q
-y = [0]*q
-for i in range(q):
-    t[i], x[i], y[i] = list(map(int, input().split()))
+b = list(map(int, input().split()))
+c = list(map(int, input().split()))
 
-shift = 0
-for i in range(q):
-    if t[i] == 1:
-        xn = (x[i]-1-shift)%n
-        yn = (y[i]-1-shift)%n
-        temp = a[xn]
-        a[xn] = a[yn]
-        a[yn] = temp
-    elif t[i] == 2:
-        shift += 1
-    elif t[i] == 3:
-        xn = (x[i]-1-shift)%n
-        print(a[xn])
+# 全て46で割ったあまりに変換し，その個数を管理する
+newa = [0]*46
+newb = [0]*46
+newc = [0]*46
+for i in range(n):
+    newa[a[i]%46] += 1
+    newb[b[i]%46] += 1
+    newc[c[i]%46] += 1
+
+ans = 0
+for i in range(46):
+    for j in range(46):
+        for k in range(46):
+            if (i+j+k)%46==0:
+                ans += newa[i]*newb[j]*newc[k]
+
+print(ans)
