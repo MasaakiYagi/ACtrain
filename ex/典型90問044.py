@@ -1,30 +1,24 @@
 # 典型90問044
 # https://atcoder.jp/contests/typical90/tasks/typical90_ar
 
-from collections import deque
-
 n, q = list(map(int, input().split()))
 a = list(map(int, input().split()))
-t = [list(map(int, input().split())) for _ in range(q)]
+t = [0]*q
+x = [0]*q
+y = [0]*q
+for i in range(q):
+    t[i], x[i], y[i] = list(map(int, input().split()))
 
-a = deque(a)
-shift = 0
-
-# シフトは添え字操作で表現する
-def cor(x):
-    return x-shift
-
-for i in t:
-    if i[0]==1:
-        # swap
-        temp = a[cor(i[1])-1]
-        a[cor(i[1])-1] = a[cor(i[2])-1]
-        a[cor(i[2])-1] = temp
-    elif i[0]==2:
-        # shift
+shift = 0  # シフト操作は変数で管理（配列操作はしない）
+for i in range(q):
+    if t[i] == 1:
+        xn = (x[i]-1-shift)%n
+        yn = (y[i]-1-shift)%n
+        temp = a[xn]
+        a[xn] = a[yn]
+        a[yn] = temp
+    elif t[i] == 2:
         shift += 1
-        if shift==n:
-            shift=0
-    else:
-        # output
-        print(a[cor(i[1])-1])
+    elif t[i] == 3:
+        xn = (x[i]-1-shift)%n
+        print(a[xn])
