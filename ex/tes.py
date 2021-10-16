@@ -8,19 +8,19 @@
 # 再帰の回数上限撤廃（再帰使うならPythonで通そう）
 # import sys
 # sys.setrecursionlimit(10**8)
+# import itertools
 
-n = int(input())
-a, b, c = list(map(int, input().split()))
+a, b = list(map(int, input().split()))
 
-# 全探索（効率よく）
-ans = 10000
-for i in range(10001):
-    for j in range(10001-i):
-        tot = i*a+j*b
-        sub = n-tot
-        if sub>0 and sub%c==0:
-            # cを整数倍出すことで，丁度tot合計がnとなったとき
-            k = sub//c
-            ans = min(ans, i+j+k)
+def gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a
 
-print(ans)
+gcdn = gcd(a,b)
+ans = a//gcdn
+ans *= b
+if ans>10**18:
+    print("Large")
+else:
+    print(ans)

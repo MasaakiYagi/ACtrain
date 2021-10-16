@@ -6,34 +6,37 @@ import itertools as it
 n = int(input())
 a = [list(map(int, input().split())) for _ in range(n)]
 m = int(input())
-xy = [list(map(int, input().split())) for _ in range(m)]
-kenaku = [[False]*n for _ in range(n)]
-for i in xy:
-    kenaku[i[0]-1][i[1]-1] = True
-    kenaku[i[1]-1][i[0]-1] = True
+xy = {}
+for i in range(n+1):
+    xy[i] = []
+for i in range(m):
+    x, y = list(map(int, input().split()))
+    xy[x].append(y)
+    xy[y].append(x)
 
-ans = 10001
+# 探索組み合わせの列挙
+cand = list(it.permutations(range(1,n+1)))
 
-# 順列全探索
-cands = list(it.permutations(list(range(n))))
-for cand in cands:
-    # 噂判定
-    flag = True
-    for i in range(n-1):
-        if kenaku[cand[i]][cand[i+1]]:
-            flag = False
-    if flag:
-        # 時間計測
+ans = 10**10
+for i in cand:
+    # 噂クリア確認
+    ngflag = False
+    for j in range(n-1):  # 一人ずつ噂に引っかかるかをチェック
+        f = i[j]  # 渡す人
+        t = i[j+1]  # 受け取る人
+        if t in xy[f]:
+            ngflag = True
+        if f in xy[t]:
+            ngflag = True
+    if ngflag:
+        pass
+    else:
         time = 0
-        k = 0
-        for i in cand:
-            time += a[i][k]
-            k += 1
-            
-        if time<ans:
-            ans = time
+        for j in range(n):
+            time += a[i[j]-1][j]
+        ans = min(ans, time)
 
-if ans == 10001:
+if ans == 10**10:
     ans = -1
 
 print(ans)
