@@ -10,29 +10,29 @@
 # sys.setrecursionlimit(10**8)
 # import itertools
 
+import bisect
+
 n = int(input())
 a = list(map(int, input().split()))
 
-tot = sum(a)
-a.extend(a)
-flag = False
-c = 0
-l = 0
-r = 0
-c = a[0]
-for i in range(1,2*n):
-    if c<tot/10:
-        r += 1
-        c += a[r]
-    elif c>tot/10:
-        while(c>tot/10 and l<=r):
-            l += 1
-            c -= a[l]
-    elif c==tot/10:
-        flag = True
+s = sum(a)
+
+b = [0]*(2*n)
+for i in range(2*n):
+    if i == 0:
+        b[i] = a[i]
+    else:
+        b[i] = b[i-1]+a[i%n]
+
+# bの配列にてb[j]-b[i]=s/10となるi,jの組みを見つける
+# b[j]=b[i]+s/10となるiに対するjを見つける
+flag = True
+for i in range(n):
+    ind = bisect.bisect_left(b, b[i]+s/10)
+    if b[ind]==b[i]+s/10:
+        print("Yes")
+        flag = False
+        break
 
 if flag:
-    print("Yes")
-else:
     print("No")
-    
