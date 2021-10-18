@@ -12,23 +12,27 @@
 
 n = int(input())
 a = list(map(int, input().split()))
-b = list(map(int, input().split()))
-c = list(map(int, input().split()))
 
-# 全て46で割ったあまりに変換し，その個数を管理する
-newa = [0]*46
-newb = [0]*46
-newc = [0]*46
-for i in range(n):
-    newa[a[i]%46] += 1
-    newb[b[i]%46] += 1
-    newc[c[i]%46] += 1
+tot = sum(a)
+a.extend(a)
+flag = False
+c = 0
+l = 0
+r = 0
+c = a[0]
+for i in range(1,2*n):
+    if c<tot/10:
+        r += 1
+        c += a[r]
+    elif c>tot/10:
+        while(c>tot/10 and l<=r):
+            l += 1
+            c -= a[l]
+    elif c==tot/10:
+        flag = True
 
-ans = 0
-for i in range(46):
-    for j in range(46):
-        for k in range(46):
-            if (i+j+k)%46==0:
-                ans += newa[i]*newb[j]*newc[k]
-
-print(ans)
+if flag:
+    print("Yes")
+else:
+    print("No")
+    

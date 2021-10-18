@@ -3,27 +3,27 @@
 
 n, q = list(map(int, input().split()))
 a = list(map(int, input().split()))
-v = [list(map(int, input().split())) for _ in range(q)]
+t = [list(map(int, input().split())) for _ in range(q)]
 
-
-# 階差配列bを作成b[i] = a[i+1]-a[i]
-b = []
-suma = 0
+# まず差分配列を作る
+da = [0]*(n-1)
+huben = 0
 for i in range(n-1):
-    b.append(a[i+1]-a[i])
-    suma += abs(b[i])
+    da[i] = a[i+1]-a[i]
+    huben += abs(da[i])
 
-# 地殻変動更新
-for i in range(q):
-    dl = 0
-    dr = 0
-    if v[i][0]>1:
-        dl = -abs(b[v[i][0]-2])
-        b[v[i][0]-2] += v[i][2]
-        dl += abs(b[v[i][0]-2])
-    if v[i][1]<n:
-        dr = -abs(b[v[i][1]-1])
-        b[v[i][1]-1] -= v[i][2]
-        dr += abs(b[v[i][1]-1])
-    suma += dl+dr
-    print(suma)
+# 地殻変動毎に差分を計算
+for i in t:
+    l, r, v = i
+    l, r = l-1, r-1
+    temp = 0
+    if l>0:
+        temp -= abs(da[l-1])
+        da[l-1] += v
+        temp += abs(da[l-1])
+    if r<(n-1):
+        temp -= abs(da[r])
+        da[r] -= v
+        temp += abs(da[r])
+    huben += temp
+    print(huben)
