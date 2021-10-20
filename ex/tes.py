@@ -10,29 +10,31 @@
 # sys.setrecursionlimit(10**8)
 # import itertools
 
-import bisect
+h, w = list(map(int, input().split()))
+a = [list(map(int, input().split())) for _ in range(h)]
+b = [list(map(int, input().split())) for _ in range(h)]
 
-n = int(input())
-a = list(map(int, input().split()))
+# 0~h-2,0~w-2までを一致させるよう処理し，h-1,w-1のL字成分が一致しているかを判定
+ans = 0
+for i in range(h-1):
+    for j in range(w-1):
+        sa = b[i][j]-a[i][j]
+        a[i][j] += sa
+        a[i+1][j] += sa
+        a[i][j+1] += sa
+        a[i+1][j+1] += sa
+        ans += abs(sa)
 
-s = sum(a)
-
-b = [0]*(2*n)
-for i in range(2*n):
-    if i == 0:
-        b[i] = a[i]
-    else:
-        b[i] = b[i-1]+a[i%n]
-
-# bの配列にてb[j]-b[i]=s/10となるi,jの組みを見つける
-# b[j]=b[i]+s/10となるiに対するjを見つける
 flag = True
-for i in range(n):
-    ind = bisect.bisect_left(b, b[i]+s/10)
-    if b[ind]==b[i]+s/10:
-        print("Yes")
+for i in range(h):
+    if not(a[i][-1]==b[i][-1]):
         flag = False
-        break
+for i in range(w):
+    if not(a[-1][j]==b[-1][j]):
+        flag = False
 
 if flag:
+    print("Yes")
+    print(ans)
+else:
     print("No")
