@@ -10,31 +10,34 @@
 # sys.setrecursionlimit(10**8)
 # import itertools
 
-h, w = list(map(int, input().split()))
-a = [list(map(int, input().split())) for _ in range(h)]
-b = [list(map(int, input().split())) for _ in range(h)]
+l, r = list(map(int, input().split()))
+m = 10**9+7
 
-# 0~h-2,0~w-2までを一致させるよう処理し，h-1,w-1のL字成分が一致しているかを判定
-ans = 0
-for i in range(h-1):
-    for j in range(w-1):
-        sa = b[i][j]-a[i][j]
-        a[i][j] += sa
-        a[i+1][j] += sa
-        a[i][j+1] += sa
-        a[i+1][j+1] += sa
-        ans += abs(sa)
+cl = len(str(l))  # lのケタ
+cr = len(str(r))  # rのケタ
 
-flag = True
-for i in range(h):
-    if not(a[i][-1]==b[i][-1]):
-        flag = False
-for i in range(w):
-    if not(a[-1][j]==b[-1][j]):
-        flag = False
+def souwa(x):
+    return (x%m)*((x+1)%m)//2
 
-if flag:
-    print("Yes")
-    print(ans)
+if cl==cr:
+    # ケタ数が同じのとき
+    ans = (souwa(r)-souwa(l-1))*cl%m
+elif cr-cl==1:
+    # ケタ差が1のとき
+    eol = 10**cl-1  # lのケタの最後の数
+    sor = 10**(cr-1)  # rのケタの最初の数
+    ans = (cr*(souwa(r)-souwa(sor-1))+cl*(souwa(eol)-souwa(l-1)))%m
 else:
-    print("No")
+    # ケタ差が2以上のとき
+    eol = 10**cl-1  # lのケタの最後の数
+    sor = 10**(cr-1)  # rのケタの最初の数
+    a1 = cr*(souwa(r)-souwa(sor-1))%m
+    a2 = cl*(souwa(eol)-souwa(l-1))%m
+    ans = (a1+a2)%m
+    for i in range(cl+1,cr):
+        soi = 10**(i-1)
+        eoi = 10**i-1
+        ai = i*(souwa(eoi)-souwa(soi-1))
+        ans = (ans+ai)%m
+
+print(int(ans))
