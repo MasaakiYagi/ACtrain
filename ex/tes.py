@@ -11,10 +11,23 @@
 # import itertools
 # import bisect
 
-import networkx
+n = int(input())
+p = [list(map(int, input().split())) for _ in range(n)]
 
-m = int(input())
-e = [list(map(int, input().split())) for _ in range(m)]
-p = list(map(int, input().split()))
+ps = set()
+for i in range(n):
+    ps.add((p[i][0],p[i][1]))
 
-# 正しい場所への最小移動回数の総和+1?
+# 全ての2点の組み合わせに対して，残る2頂点があるかを確認
+ans = 0
+for i in range(n-1):
+    for j in range(i+1,n):
+        x1 = p[i][0]
+        y1 = p[i][1]
+        x2 = p[j][0]
+        y2 = p[j][1]
+        if not(x1==x2) and not(y1==y2):
+            if (x1,y2) in ps and (x2,y1) in ps:
+                ans += 1
+
+print(ans//2)
